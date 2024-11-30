@@ -1,0 +1,544 @@
+<html>
+
+<head>
+   <style>
+      /* easyLink-box */
+      div.easyLink-box {
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        div.easyLink-box div,
+        div.easyLink-box p,
+        div.easyLink-box img,
+        div.easyLink-box a {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            word-break: break-all;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            overflow: hidden;
+            z-index: 0;
+            vertical-align: middle;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img {
+            max-width: 240px;
+            /* IE11のため最大サイズを固定している.本来100%でOK. */
+            max-height: 240px;
+        }
+
+        div.easyLink-box.easyLink-size-s div.easyLink-img p.easyLink-img-box span>img {
+            position: relative;
+            max-width: 160px;
+            max-height: 160px;
+        }
+
+        div.easyLink-box.easyLink-size-xs div.easyLink-img p.easyLink-img-box span>img {
+            position: relative;
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span:not(:first-child)>img {
+            display: none;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_left_slideOut {
+            animation-name: msm_left_slideOut;
+            animation-duration: 0.5s;
+            animation-timing-function: ease;
+            animation-fill-mode: both;
+            display: unset;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_left_slideIn {
+            animation-name: msm_left_slideIn;
+            animation-duration: 0.5s;
+            animation-timing-function: ease;
+            animation-fill-mode: both;
+            display: unset;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_right_slideOut {
+            animation-name: msm_right_slideOut;
+            animation-duration: 0.5s;
+            animation-timing-function: ease;
+            animation-fill-mode: both;
+            display: unset;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_right_slideIn {
+            animation-name: msm_right_slideIn;
+            animation-duration: 0.5s;
+            animation-timing-function: ease;
+            animation-fill-mode: both;
+            display: unset;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span.waiting {
+            display: none;
+            width: 60%;
+            height: 60%;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            animation-name: msm_rotate_anime;
+            animation-duration: 0.75s;
+            animation-iteration-count: infinite;
+            border-top-color: transparent;
+        }
+
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span.waiting img {
+            display: none;
+        }
+
+        @keyframes msm_left_slideOut {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+                display: unset;
+            }
+
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+                display: none;
+            }
+        }
+
+        @keyframes msm_left_slideIn {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+                display: none;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+                display: unset;
+            }
+        }
+
+        @keyframes msm_right_slideOut {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+                display: unset;
+            }
+
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+                display: none;
+            }
+        }
+
+        @keyframes msm_right_slideIn {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+                display: none;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+                display: unset;
+            }
+        }
+
+        @keyframes msm_rotate_anime {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-left,
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-right {
+            margin-top: -18px;
+            position: absolute;
+            display: block;
+            top: 50%;
+            z-index: 10;
+        }
+
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-left {
+            left: 0;
+        }
+
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-right {
+            right: 0;
+        }
+
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-left img,
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-right img {
+            transition: 0.3s ease-in-out;
+            opacity: 0.7;
+        }
+
+        div.easyLink-box.easyLink-size-s div.easyLink-img a.easyLink-arrow-left img,
+        div.easyLink-box.easyLink-size-s div.easyLink-img a.easyLink-arrow-right img,
+        div.easyLink-box.easyLink-size-xs div.easyLink-img a.easyLink-arrow-left img,
+        div.easyLink-box.easyLink-size-xs div.easyLink-img a.easyLink-arrow-right img {
+            width: 24px;
+            height: 24px;
+        }
+
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-left:hover img,
+        div.easyLink-box div.easyLink-img a.easyLink-arrow-right:hover img {
+            opacity: 1;
+        }
+
+        div.easyLink-box.easyLink-size-s div.easyLink-img a.easyLink-arrow-left:hover img,
+        div.easyLink-box.easyLink-size-s div.easyLink-img a.easyLink-arrow-right:hover img,
+        div.easyLink-box.easyLink-size-xs div.easyLink-img a.easyLink-arrow-left:hover img,
+        div.easyLink-box.easyLink-size-xs div.easyLink-img a.easyLink-arrow-right:hover img {
+            width: 24px;
+            height: 24px;
+        }
+
+        div.easyLink-box div.easyLink-info p.easyLink-info-maker,
+        div.easyLink-box div.easyLink-info p.easyLink-info-model {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-maker,
+        div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-model,
+        div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-maker,
+        div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-model {
+            font-size: 12px;
+        }
+
+
+        div.easyLink-box div.easyLink-info p.easyLink-info-name {
+            margin-bottom: 5px;
+            font-size: 18px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-name,
+        div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-name {
+            font-size: 16px;
+        }
+
+        div.easyLink-box div.easyLink-info p.easyLink-info-name a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        div.easyLink-box div.easyLink-info p.easyLink-info-name a:hover {
+            text-decoration: underline;
+        }
+
+        div.easyLink-box div.easyLink-info p.easyLink-info-btn a:hover {
+            opacity: 0.8;
+            text-decoration: none;
+        }
+
+        /* easyLink-box PC */
+        @media screen and (min-width: 704px) {
+            div.easyLink-box {
+                display: flex;
+                max-width: 830px;
+            }
+
+            div.easyLink-box div.easyLink-img {
+                margin-right: 20px;
+                height: 240px;
+                position: relative;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-img,
+            div.easyLink-box.easyLink-size-xs div.easyLink-img {
+                height: unset;
+            }
+
+            div.easyLink-box div.easyLink-img p.easyLink-img-box {
+                width: 240px;
+                height: 240px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-img p.easyLink-img-box {
+                position: relative;
+                width: 160px;
+                height: 160px;
+            }
+
+            div.easyLink-box.easyLink-size-xs div.easyLink-img p.easyLink-img-box {
+                position: relative;
+                width: 100px;
+                height: 100px;
+            }
+
+            div.easyLink-box div.easyLink-info {
+                width: 100%;
+                flex-grow: 2;
+            }
+
+            div.easyLink-box div.easyLink-info p.easyLink-info-btn {
+                margin-top: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-btn,
+            div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-btn {
+                justify-content: flex-start;
+            }
+
+            div.easyLink-box div.easyLink-info p.easyLink-info-btn a {
+                margin-bottom: 10px;
+                padding: 0 5px;
+                box-sizing: border-box;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 280px;
+                height: 40px;
+                color: #fff;
+                background: linear-gradient(45deg, #f7820f, #f79821);
+                font-weight: bold;
+                font-size: 14px;
+                line-height: 1.25;
+                text-align: center;
+                transition: 0.3s ease-in-out;
+                text-decoration: none;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-btn a,
+            div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-btn a {
+                width: 180px;
+                margin-right: 10px;
+                height: 40px;
+                font-size: 12px;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-btn a:nth-child(2n),
+            div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-btn a:nth-child(2n) {
+                margin-left: unset;
+            }
+        }
+
+        /* easyLink-box narrow PC */
+        @media screen and (max-width: 703px) {
+
+            div.easyLink-box {
+                display: flex;
+            }
+
+            div.easyLink-box div.easyLink-img {
+                height: 240px;
+                position: relative;
+            }
+
+            div.easyLink-box div.easyLink-img p.easyLink-img-box {
+                width: 240px;
+                height: 240px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            div.easyLink-box div.easyLink-info {
+                flex-grow: 2;
+            }
+
+            div.easyLink-box div.easyLink-info p.easyLink-info-btn {
+                margin-top: 20px;
+                display: block;
+            }
+
+            div.easyLink-box div.easyLink-info p.easyLink-info-btn a {
+                margin-bottom: 10px;
+                padding: 0 5px;
+                box-sizing: border-box;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 40px;
+                color: #fff;
+                background: linear-gradient(45deg, #f7820f, #f79821);
+                font-weight: bold;
+                font-size: 14px;
+                line-height: 1.25;
+                text-align: center;
+                transition: 0.3s ease-in-out;
+                text-decoration: none;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-btn a,
+            div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-btn a {
+                font-size: 12px;
+            }
+        }
+
+        /* easyLink-box SP */
+        @media screen and (max-width: 480px) {
+            div.easyLink-box {
+                display: block;
+            }
+
+            div.easyLink-box.easyLink-size-s,
+            div.easyLink-box.easyLink-size-xs {
+                margin: 20px auto 0;
+                padding: 20px;
+                max-width: 280px;
+                box-sizing: border-box;
+            }
+
+            div.easyLink-box div.easyLink-img {
+                position: relative;
+                height: unset;
+            }
+
+            div.easyLink-box.easyLink-size-xs .easyLink-img {
+                width: 160px;
+                height: 160px;
+                margin: 0 auto;
+            }
+
+            div.easyLink-box div.easyLink-img::before {
+                content: '';
+                display: block;
+                padding-top: 100%;
+            }
+
+            div.easyLink-box div.easyLink-img p.easyLink-img-box {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-img p.easyLink-img-box span>img {
+                position: relative;
+                max-width: 240px;
+                max-height: 240px;
+            }
+
+            div.easyLink-box.easyLink-size-xs div.easyLink-img p.easyLink-img-box span>img {
+                max-width: 160px;
+                max-height: 160px;
+            }
+
+            div.easyLink-box div.easyLink-info p.easyLink-info-btn a {
+                padding: 0 5px;
+                box-sizing: border-box;
+                border-radius: 3px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+                background: linear-gradient(45deg, #f7820f, #f79821);
+                font-weight: bold;
+                font-size: 14px;
+                line-height: 1.25;
+                text-align: center;
+                transition: 0.3s ease-in-out;
+                text-decoration: none;
+            }
+
+            div.easyLink-box.easyLink-size-s div.easyLink-info p.easyLink-info-btn a,
+            div.easyLink-box.easyLink-size-xs div.easyLink-info p.easyLink-info-btn a {
+                font-size: 12px;
+            }
+        }
+
+        /* For IE11 */
+        _:-ms-lang(x)::-ms-backdrop,
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span {
+            top: 0;
+            left: 0;
+        }
+
+
+        _:-ms-lang(x)::-ms-backdrop,
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_left_slideOut {
+            display: inline-block;
+        }
+
+        _:-ms-lang(x)::-ms-backdrop,
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_left_slideIn {
+            display: inline-block;
+        }
+
+        _:-ms-lang(x)::-ms-backdrop,
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_right_slideOut {
+            display: inline-block;
+        }
+
+        _:-ms-lang(x)::-ms-backdrop,
+        div.easyLink-box div.easyLink-img p.easyLink-img-box span>img.msm_right_slideIn {
+            display: inline-block;
+        }
+   </style>
+</head>
+
+<body>
+    <div>
+    <div class="easyLink-box">
+        <div class="easyLink-img">
+            <p class="easyLink-img-box"> <span><img src="https://m.media-amazon.com/images/I/51BKnFRzWYL._SL500_.jpg"
+                        alt="" class="easyLink-img-pht js-item-image" width="148.32" height="240"></span> <a href="#"
+                    class="easyLink-arrow-left"><img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACPklEQVRYhdWYTW7aQBSAPw8OoBaspApdIKW7ChX5DPzcggU3QogNHIGDcAKExKat1C6yQQWVNiIRqQru4tnEWHaC7XFQvx0ez/hj5tlv3hjEpwBYQAkoAnkg57btgD/AFtgAd8BjnMGNGPddARVXJA4bYAmsAUeHkAXcILORhi1wi8xaIiHlilynFAmyQsT2YY25sIuACXwELjXLALxBZv1XmFSYkAnU3I5ZkUf+7DooFRRSyMxkKeNhAmXgJ75gDwp9IJtliiIPXAC/vQvK12ihP4BP4dp9NnAsdPP6LkfPNuBJ6B3pvzNpKCIf3oNQ5XwuByogQgXip4NIbNtmMpkk6VoCCgpfQKWhXC7T6/WYTqc0Go2kw1gmGman0+nQ7/epVqtphyqZpAjmer3OcDik3W6nFfEoKuTjFAtveWazmU4ZgLxJdIINRePyhJFTL98T6JHLoVTsbiejkG3nyYzHY2q1GoPBgN0uVtdT2BnAJxJmd9u2GY1Goa+5YZy6Oz7iQSFby0TM53NarRbdbpfFYpF0GD9bhWzCE+M4js5l3BhI6rDTjOLHW8Zms5mk+9xb6Boa81lCNsBn7/1dntPEZQlP2481KYJbA1vX4SDkILXSubh1HY7SxiMS4K9RcfhZAT+8H8E8dofsj2In3ITcA995pgxykIryEqmbsmQLfCWQusIy/R4JMAupmbLgAfgC/A02RG099khFeYH+mFoB34hI6v/VcUzwvivgPfA2psg98hZpO7AKkumR3j/xxILJyWXZqQAAAABJRU5ErkJggg=="
+                        alt=""></a> <a href="#" class="easyLink-arrow-right"><img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAACPElEQVRYhdWYzYraUBSAv1wzKu0oM2XsQphCF0Vw2SeI7+EbuPQxXPgUok+h4BsIbtpCuxgQqTK24pTMUE0XJ9EYEjXJdaTfztz8fN5zcs+5MYhPDigC10AeyAIZd2wNvAA2sAKWwHOcmxsxzrsFSq5IHFbADFgAjg6hInCPzEYabOABmbVEQsoVuUspEmSOiG3CBjNhBwET+ATcaJYBeIPM+q8wqTAhE6i4F56LLPJnF0GpoJBCZuacMh4mUAAe8SV7UOgD5wlTFFngCvjtHVC+wSL6E/gU7txnA/tC96/vsvdsA3ZC70i/zqQhjyy8W6HS5Vy2lECEcsQvBwwGA6rVqk6hayCn8CVUHCzLYjQa0Wq1KBQKuqSKBvARyaFYOM6uTk4mE5rNJr1eL63Qo0JDMpfLZbrdLv1+P20Y8wpZnLRQq9XShjFrAJ85vS/a4g9ZGAnD6Kjj5yRDKUUmE9VMHLgOaTu1sV6vabfbVCoVOp1O7MtNpAc2dcgMh0MajQbj8TjpLV4U0lqmYjqdUq/XsSwrjQyArZAmPBHB8BxL9BNYmRxpuqPQEJ4wlt7rXiFBPdPMCvjivfazS5q4zGDXfizQkNwpsF2HrZCD7JUuxYPrsNfkPyO90WvsOPzMgZ/ej+DavkT6I20F9whPwA8ObIMcZEd5g6bV+wA28I1A6QqrfhskwYrInukc/AG+An+DA1HleIPsKK/Qn1Nz4DsRRf2/+hwTPO8WeA+8jSnyhLxF2j5YBTnrJ71/1ZGassFg69MAAAAASUVORK5CYII="
+                        alt=""></a> </p>
+        </div>
+        <div class="easyLink-info">
+            <p class="easyLink-info-maker">マイクロソフト</p>
+            <p class="easyLink-info-name"><a
+                    href="https://af.moshimo.com/af/c/click?a_id=2758764&amp;p_id=170&amp;pc_id=185&amp;pl_id=27060&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2Fdp%2FB0B3R5PL2Y"
+                    rel="nofollow" referrerpolicy="no-referrer-when-downgrade">Minecraft (マインクラフト): Java &amp; Bedrock
+                    Edition | オンラインコード版</a></p>
+            <p class="easyLink-info-model"></p>
+            <p class="easyLink-info-btn"> <a
+                    href="https://af.moshimo.com/af/c/click?a_id=2758764&amp;p_id=170&amp;pc_id=185&amp;pl_id=27060&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2Fdp%2FB0B3R5PL2Y"
+                    class="easyLink-info-btn-amazon" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"
+                    style="background:#f79256">Amazonで見る</a><a
+                    href="https://af.moshimo.com/af/c/click?a_id=2758763&amp;p_id=54&amp;pc_id=54&amp;pl_id=27059&amp;url=https%3A%2F%2Fsearch.rakuten.co.jp%2Fsearch%2Fmall%2FMinecraft%2520(%25E3%2583%259E%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%25AF%25E3%2583%25A9%25E3%2583%2595%25E3%2583%2588)%253A%2520Java%2520%2526%2520Bedrock%2520Edition%2520%257C%2520%25E3%2582%25AA%25E3%2583%25B3%25E3%2583%25A9%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%25B3%25E3%2583%25BC%25E3%2583%2589%25E7%2589%2588%2F"
+                    class="easyLink-info-btn-rakuten" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"
+                    style="background:#f76956">楽天市場で見る</a><a
+                    href="https://af.moshimo.com/af/c/click?a_id=2758765&amp;p_id=1225&amp;pc_id=1925&amp;pl_id=27061&amp;url=https%3A%2F%2Fshopping.yahoo.co.jp%2Fsearch%3Ffirst%3D1%26p%3DMinecraft%2520(%25E3%2583%259E%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%25AF%25E3%2583%25A9%25E3%2583%2595%25E3%2583%2588)%25253A%2520Java%2520%252526%2520Bedrock%2520Edition%2520%257C%2520%25E3%2582%25AA%25E3%2583%25B3%25E3%2583%25A9%25E3%2582%25A4%25E3%2583%25B3%25E3%2582%25B3%25E3%2583%25BC%25E3%2583%2589%25E7%2589%2588"
+                    class="easyLink-info-btn-yahoo" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"
+                    style="background:#66a7ff">Yahoo!ショッピングで見る</a></p>
+        </div>
+    </div>
+    <!--blank row -->
+    <div style="width: 100%; height: 1em"></div>
+</div>
+   
+  </body></html>
